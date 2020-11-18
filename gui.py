@@ -5,6 +5,9 @@ import random
 import copy
 
 class Colors:
+    """
+    Make variables that define colors for the background and foreground of the tiles. Also instantiates the Font, and Text color for Score and other UI elements.
+    """
     def __init__(self):
         self.UIBACK='#eee4da'
         self.BACKGROUND_COLOR = '#bbada0'
@@ -58,6 +61,10 @@ class GUI(tk.Frame):
         self.make_GUI()
 
     def make_GUI(self):
+        """
+        Initialise Main Frame and Grid for the game.
+        Also Initialise the Score, Title and Game Over frames.
+        """
         self.overflag=False
         self.winflag=False
         self.cells = []
@@ -102,6 +109,12 @@ class GUI(tk.Frame):
         self.title_sublabel4.grid(row=4, sticky='w')
 
     def horizontal_move_exits(self,matrix):
+        """
+        Check if tiles can be combined when moving left or right.
+
+        Args:
+            matrix (2D List): Game grid
+        """
         for i in range(4):
             for j in range(3):
                 if matrix[i][j] == matrix[i][j+1]:
@@ -109,6 +122,12 @@ class GUI(tk.Frame):
         return False
 
     def vertical_move_exits(self,matrix):
+        """
+        Check if tiles can be combined when moving up or down.
+
+        Args:
+            matrix (2D List): Game grid
+        """
         for i in range(3):
             for j in range(4):
                 if matrix[i][j] == matrix[i+1][j]:
@@ -116,6 +135,15 @@ class GUI(tk.Frame):
         return False
 
     def game_over(self,matrix):
+        """
+        Check if game is over by checking if the player has already won(if 2048 has been achieved) or if no moves can be made (No empty cells and no combinations possible).
+        
+        Args:
+            matrix (2D List): Game grid
+        
+        Returns:
+            Changes Flags based on win and game over conditions.
+        """
         if any(2048 in row for row in matrix):
             self.overflag=True
             self.winflag=True
@@ -126,6 +154,14 @@ class GUI(tk.Frame):
             self.winflag=False
 
     def update_GUI(self,matrix,score):
+        """
+        Checks matrix and updates GUI based on the matrix.
+        Checks if game is over. If game is over, generate the game over frame.
+
+        Args:
+            matrix (2D List): Game grid
+            score (int): Integer score for the game state
+        """
         for i in range(4):
             for j in range(4):
                 cell_value = matrix[i][j]
@@ -160,10 +196,19 @@ class GUI(tk.Frame):
         self.update_idletasks()
 
     def game_over_maker(self,textmsg):
-            # self.game_over_frame = tk.Frame(self.main_grid,width=480, height=480, borderwidth =2)
-            self.game_over_frame.place(relx=0.5, rely=0.5, anchor="center")
-            self.game_over_frame_label.configure(text=textmsg)
-            self.game_over_frame_label.pack()
+        """
+        Place the Game over frame in it's parent frame.
+
+        Args:
+            textmsg (String): Message to be put into frame.
+        """
+        # self.game_over_frame = tk.Frame(self.main_grid,width=480, height=480, borderwidth =2)
+        self.game_over_frame.place(relx=0.5, rely=0.5, anchor="center")
+        self.game_over_frame_label.configure(text=textmsg)
+        self.game_over_frame_label.pack()
     
     def popup(self):
+        """
+        Create popup that takes input from user for number of steps to lookahead into.
+        """
         return tkinter.simpledialog.askstring('Input Lookahead Steps', 'How many steps ahead do you wish to look\n(Large Number may result in memory issues, keep < 5 for easy output)\n(Output states possible to console, default to 3 if cancelled or nothing is entered)',parent=self.main_grid)

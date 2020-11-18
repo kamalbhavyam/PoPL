@@ -21,6 +21,17 @@ class State:
         return str(self.gamegrid)
 
     def stack(self,matrix):
+        """
+        Moves tiles towards left as far as possible without overriding another tile.
+        >>> [4,0,2,0] becomes [4,2,0,0]
+        >>> [0,2,2,0] becomes [2,2,0,0]
+
+        Args:
+            matrix (2D List): Game grid
+
+        Returns:
+            matrix (2D List): New changed matrix
+        """
         changeflag=False
         new_matrix = [[0] * 4 for _ in range(4)]
         for i in range(4):
@@ -37,6 +48,19 @@ class State:
         return new_matrix,changeflag
 
     def combine(self,matrix,score):
+        """
+        Make a Left move and combine all the tiles that can be combined in one move.
+        >>> [4,2,2,0] becomes [4,4,0,0]
+        Note that it does not combine the 4 and 4 further in the above example.
+        >>> [2,2,4,0] becomes [4,0,4,0]
+
+        Args:
+            matrix (2D List): Game grid
+            score (int): Score for current Game state
+
+        Returns:
+            matrix (2D List): New changed matrix
+        """
         changeflag=False
         new_matrix=matrix.copy()
         score_new=score
@@ -50,6 +74,15 @@ class State:
         return new_matrix,score_new,changeflag
 
     def reverse(self,matrix):
+        """
+        Mirrors the game grid across a vertical mirror. Used in implementing Right and Down moves.
+
+        Args:
+            matrix (2D List): Game grid
+
+        Returns:
+            matrix (2D List): New changed matrix
+        """
         new_matrix=[]
         for i in range(4):
             new_matrix.append([])
@@ -58,6 +91,15 @@ class State:
         return new_matrix
 
     def transpose(self,matrix):
+        """
+        Mirrors the game grid across a horizontal mirror. Used in implementing Up and Down moves.
+
+        Args:
+            matrix (2D List): Game grid
+
+        Returns:
+            matrix (2D List): New changed matrix
+        """
         new_matrix = [[0] * 4 for _ in range(4)]
         for i in range(4):
             for j in range(4):
@@ -65,6 +107,17 @@ class State:
         return new_matrix
 
     def add_new_tile(self, matrix, val=None):
+        """
+        Add a new tile in an empty cell of the grid.
+        2 or 4 is added with probabilities of 0.85 and 0.15 respectively.
+
+        Args:
+            matrix (2D List): Game grid
+            Val (Integer): If no value is specified, probabilites mentioned above are used. If value is specified, tile of that value is inserted.
+
+        Returns:
+            matrix (2D List): New changed matrix
+        """
         new_matrix=matrix.copy()
         row = random.randint(0,3)
         col = random.randint(0,3)
@@ -78,6 +131,12 @@ class State:
         return new_matrix
 
     def horizontal_move_exits_look(self,matrix):
+        """
+        Check if tiles can be combined when moving left or right.
+
+        Args:
+            matrix (2D List): Game grid
+        """
         for i in range(4):
             for j in range(3):
                 if matrix[i][j] == matrix[i][j+1]:
@@ -85,6 +144,12 @@ class State:
         return False
 
     def vertical_move_exits_look(self,matrix):
+        """
+        Check if tiles can be combined when moving up or down.
+
+        Args:
+            matrix (2D List): Game grid
+        """
         for i in range(3):
             for j in range(4):
                 if matrix[i][j] == matrix[i+1][j]:
@@ -92,6 +157,12 @@ class State:
         return False
 
     def game_over_look(self,matrix):
+        """
+        Check if game is over by checking if the player has already won(if 2048 has been achieved) or if no moves can be made (No empty cells and no combinations possible).
+
+        Args:
+            matrix (2D List): Game grid
+        """
         if any(2048 in row for row in matrix):
             return 0
         elif not any(0 in row for row in matrix) and not self.horizontal_move_exits_look(matrix) and not self.vertical_move_exits_look(matrix):
@@ -99,6 +170,9 @@ class State:
         return 2
 
     def moveleft(self):
+        """
+        If left state of the current state does not exist, We make a left move.
+        """
         if not self.left is None:
             return
         self.left=State(self.gamegrid,self.score)
@@ -114,6 +188,9 @@ class State:
             self.left=None
 
     def moveright(self):
+        """
+        If right state of the current state does not exist, We make a right move.
+        """
         if not self.right is None:
             return
         self.right=State(self.gamegrid,self.score)
@@ -131,6 +208,9 @@ class State:
             self.right=None
 
     def moveup(self):
+        """
+        If up state of the current state does not exist, We make an up move.
+        """
         if not self.up is None:
             return
         self.up=State(self.gamegrid,self.score)
@@ -148,6 +228,9 @@ class State:
             self.up=None
 
     def movedown(self):
+        """
+        If down state of the current state does not exist, We make a down move.
+        """
         if not self.down is None:
             return
         self.down=State(self.gamegrid,self.score)
@@ -167,6 +250,9 @@ class State:
             self.down=None
 
     def checknext(self):
+        """
+        Check if a gameover state is reached. If not, make the next 4 direction states.
+        """
         if self.game_over_look(self.gamegrid)==0:
             return
         self.moveleft()
@@ -184,6 +270,14 @@ class History:
         return str(self.history)
 
     def push(self,state,direction):
+        """
+        Move the index forward and add state to history.
+        If index is not equal to the length of the history list, check if direction being put in is same as the one of next state. If direction is different, then delete the history list ahead and append this state.
+
+        Args:
+            state (2D Matrix): Game grid
+            direction (string): Direction move that was just made
+        """
         if len(self.history)==self.index:
             self.history.append((state,direction))
         else:
@@ -211,9 +305,18 @@ class History:
         self.index+=1
     
     def delete(self):
+        """
+        Clear the history list. Used for restart.
+        """
         self.history=[]
         self.index=0
     
     def pop(self):
+        """
+        Move the current index back by 1.
+
+        Returns:
+            Game grid (2D Matrix): The 2D matrix of the previous state.
+        """
         self.index-=1
         return self.history[self.index-1][0].gamegrid, self.history[self.index-1][0].score
