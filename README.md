@@ -1,2 +1,2 @@
-# PoPL
-2048 Game for PoPL 
+# POPL
+2048 Game for CSF301 

@@ -221,8 +221,10 @@ class Game:
     def game_over(self):
         if any(2048 in row for row in self.matrix):
             self.gui.game_over_maker("You win!")
+            self.overflag=True
         elif not any(0 in row for row in self.matrix) and not self.horizontal_move_exits() and not self.vertical_move_exits():
             self.gui.game_over_maker("Game Over!")
+            self.overflag=False
 
     def restart(self,event):
         for x in self.gui.main_grid.winfo_children():
@@ -265,7 +267,10 @@ class Game:
                     templist.append(j.down)
             statelist.clear()
             statelist.extend(templist)
-            for st in templist:
+            for ind,st in enumerate(templist):
+                if ind>63:
+                    print("Limiting print to 64 values...")
+                    break
                 print("Level "+str(i+1)+" "+str(st))
             print("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _")
         print("___________________________________")

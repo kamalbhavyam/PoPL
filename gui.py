@@ -58,6 +58,8 @@ class GUI(tk.Frame):
         self.make_GUI()
 
     def make_GUI(self):
+        self.overflag=False
+        self.winflag=False
         self.cells = []
         for i in range(4):
             row=[]
@@ -72,6 +74,13 @@ class GUI(tk.Frame):
                 row.append(cell_data)
             self.cells.append(row)
             
+        self.game_over_frame = tk.Frame(self.main_grid,width=480, height=480, borderwidth =2)
+        self.game_over_frame_label=tk.Label(
+            self.game_over_frame,
+            bg=self.colors.CELL_BACKGROUND_COLOR_DICT["beyond"],
+            fg=self.colors.CELL_COLOR_DICT["beyond"],
+            font=self.colors.FONT
+        )
         score_frame = tk.Frame(self, bg = self.colors.UIBACK, width = 520, height=150)
         score_frame.place(relx=0.91, width = 220, rely=0.1, anchor="center")
         self.scorename_label = tk.Label(score_frame, bg = self.colors.UIBACK, fg=self.colors.SCORECOLOR, text="Score", font=self.colors.SCOREFONT)
@@ -92,6 +101,30 @@ class GUI(tk.Frame):
         self.title_sublabel4 = tk.Label(title_frame,bg = self.colors.UIBACK, fg=self.colors.SCORECOLOR, text="Use P to Print History, Use I to Print StateInfo", font=self.colors.SUBTITLEFONT)
         self.title_sublabel4.grid(row=4, sticky='w')
 
+    def horizontal_move_exits(self,matrix):
+        for i in range(4):
+            for j in range(3):
+                if matrix[i][j] == matrix[i][j+1]:
+                    return True
+        return False
+
+    def vertical_move_exits(self,matrix):
+        for i in range(3):
+            for j in range(4):
+                if matrix[i][j] == matrix[i+1][j]:
+                    return True
+        return False
+
+    def game_over(self,matrix):
+        if any(2048 in row for row in matrix):
+            self.overflag=True
+            self.winflag=True
+        elif not any(0 in row for row in matrix) and not self.horizontal_move_exits(matrix) and not self.vertical_move_exits(matrix):
+            self.overflag=True
+        else:
+            self.overflag=False
+            self.winflag=False
+
     def update_GUI(self,matrix,score):
         for i in range(4):
             for j in range(4):
@@ -107,20 +140,30 @@ class GUI(tk.Frame):
                         font=self.colors.FONT,
                         text=str(cell_value)
                     )
+        self.game_over(matrix)
+        if self.overflag==True:
+            if self.winflag==True:
+                for elem in self.game_over_frame.winfo_children():
+                    elem.pack_forget()
+                self.game_over_maker("You win!")
+            else:
+                for elem in self.game_over_frame.winfo_children():
+                    elem.pack_forget()
+                self.game_over_maker("Game Over!")
+        else:
+            if self.game_over_frame.winfo_ismapped():
+                for elem in self.game_over_frame.winfo_children():
+                    elem.pack_forget()
+                self.game_over_frame.place_forget()
+
         self.score_label.configure(text=score)
         self.update_idletasks()
 
     def game_over_maker(self,textmsg):
-            self.game_over_frame = tk.Frame(self.main_grid,width=480, height=480, borderwidth =2)
+            # self.game_over_frame = tk.Frame(self.main_grid,width=480, height=480, borderwidth =2)
             self.game_over_frame.place(relx=0.5, rely=0.5, anchor="center")
-            self.game_over_frame_label=tk.Label(
-                self.game_over_frame,
-                text=textmsg,
-                bg=self.colors.CELL_BACKGROUND_COLOR_DICT["beyond"],
-                fg=self.colors.CELL_COLOR_DICT["beyond"],
-                font=self.colors.FONT
-            )
+            self.game_over_frame_label.configure(text=textmsg)
             self.game_over_frame_label.pack()
     
     def popup(self):
-        return tkinter.simpledialog.askstring('Input', 'How many steps ahead do you wish to look\n(Large Number may result in memory issues)',parent=self.main_grid)
+        return tkinter.simpledialog.askstring('Input Lookahead Steps', 'How many steps ahead do you wish to look\n(Large Number may result in memory issues, keep < 5 for easy output)\n(Output states possible to console, default to 3 if cancelled or nothing is entered)',parent=self.main_grid)
