@@ -109,7 +109,7 @@ class State:
     def add_new_tile(self, matrix, val=None):
         """
         Add a new tile in an empty cell of the grid.
-        2 or 4 is added with probabilities of 0.85 and 0.15 respectively.
+        2 or 4 is added with probabilities of 0.9 and 0.1 respectively.
 
         Args:
             matrix (2D List): Game grid

@@ -104,7 +104,7 @@ class Game:
     def add_new_tile(self, val=None):
         """
         Add a new tile in an empty cell of the grid.
-        2 or 4 is added with probabilities of 0.85 and 0.15 respectively.
+        2 or 4 is added with probabilities of 0.9 and 0.1 respectively.
 
         Args:
             Val (Integer): If no value is specified, probabilites mentioned above are used. If value is specified, tile of that value is inserted.
@@ -115,7 +115,7 @@ class Game:
             row=random.randint(0,3)
             col=random.randint(0,3)
         if val is None:
-            self.matrix[row][col]=random.choices([2,4],weights=(85,15))[0]
+            self.matrix[row][col]=random.choices([2,4],weights=(90,10))[0]
         else:
             self.matrix[row][col]=val
 
@@ -310,7 +310,7 @@ class Game:
             k=3
         else:
             k=int(k)
-        statelist=[self.history.history[-1][0]]
+        statelist=[self.history.history[self.history.index-1][0]]
         for i in range(k):
             templist=[]
             for j in statelist:
@@ -325,6 +325,9 @@ class Game:
                     templist.append(j.down)
             statelist.clear()
             statelist.extend(templist)
+            if len(templist)==0:
+                print("No further moves possible")
+                break
             for ind,st in enumerate(templist):
                 if ind>63:
                     print("Limiting print to 64 values...")

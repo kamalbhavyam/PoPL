@@ -23,7 +23,7 @@
 
 ##### Moves
 - Stack, Reverse, Transpose and Combine operations are used to calculate Left, Right, Up and Down moves.
-- A new tile is randomly added from 2,4 with the probability of 0.85,0.15 respectively.
+- A new tile is randomly added from 2,4 with the probability of 0.9,0.1 respectively.
 - Game over condition is checked for whether a tile of 2048 exists or if there are no possible moves.
 
 ##### State
