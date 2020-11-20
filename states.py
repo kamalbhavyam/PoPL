@@ -4,6 +4,13 @@ import random
 import copy
 
 class State:
+    """
+    Define a Node to store the game grid, score, and next achievable states for a particular state.
+
+    Args:
+        matrix (2D list): Game Grid
+        score (int): Score at current state
+    """
     def __init__(self,matrix,score):
         self.gamegrid=matrix
         self.left,self.right,self.up,self.down=None,None,None,None
@@ -261,6 +268,9 @@ class State:
         self.movedown()
 
 class History:
+    """
+    History Object that is a list that stores State objects
+    """
     def __init__(self):
         self.index=0
         self.history=[]

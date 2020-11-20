@@ -114,6 +114,9 @@ class GUI(tk.Frame):
 
         Args:
             matrix (2D List): Game grid
+        
+        Returns:
+            Boolean value of if there exists a horizontal move
         """
         for i in range(4):
             for j in range(3):
@@ -127,6 +130,9 @@ class GUI(tk.Frame):
 
         Args:
             matrix (2D List): Game grid
+
+        Returns:
+            Boolean value of if there exists a vertical move
         """
         for i in range(3):
             for j in range(4):

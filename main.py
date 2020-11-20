@@ -49,6 +49,7 @@ class Game:
         Moves tiles towards left as far as possible without overriding another tile.
         >>> [4,0,2,0] becomes [4,2,0,0]
         >>> [0,2,2,0] becomes [2,2,0,0]
+        >>> [2,0,2,0] becomes [2,2,0,0]
         """
         new_matrix = [[0] * 4 for _ in range(4)]
         for i in range(4):
@@ -304,25 +305,27 @@ class Game:
         """
         Compute future possibilities from current state upto a number of steps specified by the user.
         If user does not specify an input, 3 steps further are computed.
+        Prints Moves along with the states they achieve.
         """
         k=self.gui.popup()
         if k is None or k=="":
             k=3
         else:
             k=int(k)
-        statelist=[self.history.history[self.history.index-1][0]]
+        statelist=[("",self.history.history[self.history.index-1][0])]
         for i in range(k):
             templist=[]
             for j in statelist:
-                j.checknext()
-                if not j.left is None:
-                    templist.append(j.left)
-                if not j.right is None:
-                    templist.append(j.right)
-                if not j.up is None:
-                    templist.append(j.up)
-                if not j.down is None:
-                    templist.append(j.down)
+                curmove=j[0]
+                j[1].checknext()
+                if not j[1].left is None:
+                    templist.append((curmove+"->Left",j[1].left))
+                if not j[1].right is None:
+                    templist.append((curmove+"->Right",j[1].right))
+                if not j[1].up is None:
+                    templist.append((curmove+"->Up",j[1].up))
+                if not j[1].down is None:
+                    templist.append((curmove+"->Down",j[1].down))
             statelist.clear()
             statelist.extend(templist)
             if len(templist)==0:
@@ -332,7 +335,7 @@ class Game:
                 if ind>63:
                     print("Limiting print to 64 values...")
                     break
-                print("Level "+str(i+1)+" "+str(st))
+                print("Level "+str(i+1)+" "+st[0]+" "+str(st[1]))
             print("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _")
         print("___________________________________")
 
