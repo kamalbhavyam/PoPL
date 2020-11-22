@@ -390,13 +390,14 @@ class Game:
                     emptycellcount+=1
         return emptycellcount
 
+    def agenteventmaker(self):
+        self.gui.event_generate("f")
+
     def agent(self,event):
-        time.sleep(0.5)
-        while self.gui.overflag==False:
+        if self.gui.overflag==False:
             mv=self.ai.getmove(self.history.history[self.history.index-1][0])
-            print(mv)
             if mv is None:
-                break
+                return
             if mv==0:
                 self.gui.event_generate("a")
             elif mv==1:
@@ -405,7 +406,7 @@ class Game:
                 self.gui.event_generate("w")
             elif mv==3:
                 self.gui.event_generate("s")
-
+            self.gui.after(50,self.agenteventmaker)
     # def agent(self,event):
     #     while self.gui.overflag==False:
     #         i=self.nextmove(self.history.history[self.history.index-1][0])

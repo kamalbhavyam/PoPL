@@ -11,7 +11,7 @@ def eventmaker(gameObject):
             print("OVERSHOT!")
             gameObject.gui.event_generate("i")
             gameObject.gui.event_generate("z")
-            gameObject.gui.after(1000,eventmaker,gameObject)
+            gameObject.gui.after(50,eventmaker,gameObject)
         # time.sleep(1)
         else:
             gameObject.gui.event_generate("i")
@@ -25,7 +25,7 @@ def eventmaker(gameObject):
                 gameObject.gui.event_generate("w")
             elif ind==4:
                 gameObject.gui.event_generate("s")
-            gameObject.gui.after(1000,eventmaker,gameObject)
+            gameObject.gui.after(50,eventmaker,gameObject)
     else:
         gameObject.gui.event_generate("i")
 
@@ -33,7 +33,7 @@ def eventmaker(gameObject):
 
 def main():
     gameObject=Game()
-    gameObject.gui.after(1000,eventmaker,gameObject)
+    gameObject.gui.after(200,eventmaker,gameObject)
     gameObject.gui.mainloop()
 
 if __name__ == "__main__":
