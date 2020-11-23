@@ -399,12 +399,16 @@ class Game:
             if mv is None:
                 return
             if mv==0:
+                print("Agent makes a left move")
                 self.gui.event_generate("a")
             elif mv==1:
+                print("Agent makes a right move")
                 self.gui.event_generate("d")
             elif mv==2:
+                print("Agent makes a up move")
                 self.gui.event_generate("w")
             elif mv==3:
+                print("Agent makes a down move")
                 self.gui.event_generate("s")
             self.gui.after(50,self.agenteventmaker)
     # def agent(self,event):

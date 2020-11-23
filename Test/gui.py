@@ -53,13 +53,13 @@ class GUI(tk.Frame):
         tk.Frame.__init__(self)
         self.colors=Colors()
         self.config(bg=self.colors.UIBACK)
-        self.grid(ipadx=50,ipady=85)
+        self.grid(ipadx=50,ipady=100)
         self.master.title("2048 by Bhavyam")
         self.main_grid = tk.Frame(
             self, bg = self.colors.BACKGROUND_COLOR, bd=3, width = 480, height = 480
         )
         # self.main_grid.pack(pady=(100, 0))
-        self.main_grid.pack( side= "bottom", pady=(0,20))
+        self.main_grid.pack( side= "bottom", pady=(0,30))
         self.make_GUI()
 
     def make_GUI(self):
@@ -99,7 +99,7 @@ class GUI(tk.Frame):
         self.score_label.grid(row=1,sticky='e')
 
         title_frame = tk.Frame(self, bg = self.colors.UIBACK, width = 520, height=150)
-        title_frame.place(relx=0.33, width = 320, rely=0.11,anchor="center")
+        title_frame.place(relx=0.33, width = 320, rely=0.13,anchor="center")
         self.title_frame_label = tk.Label(title_frame, bg = self.colors.UIBACK, fg=self.colors.SCORECOLOR, text="2048", font=self.colors.TITLEFONT)
         self.title_frame_label.grid(row=0,sticky='w')
         self.title_sublabel = tk.Label(title_frame,bg = self.colors.UIBACK, fg=self.colors.SCORECOLOR, text="Use WASD or Arrow Keys to Play", font=self.colors.SUBTITLEFONT)
@@ -110,6 +110,13 @@ class GUI(tk.Frame):
         self.title_sublabel3.grid(row=2, sticky='w')
         self.title_sublabel4 = tk.Label(title_frame,bg = self.colors.UIBACK, fg=self.colors.SCORECOLOR, text="Use P to Print History, Use I to Print StateInfo", font=self.colors.SUBTITLEFONT)
         self.title_sublabel4.grid(row=4, sticky='w')
+        self.agent_label=tk.Label(title_frame,bg=self.colors.UIBACK,fg=self.colors.SCORECOLOR,text="Or PRESS F and Sit Back...", font=self.colors.SUBTITLEFONT)
+        self.agent_label.grid(row=5,sticky='w')
+
+        # agent_frame = tk.Frame(self, bg = self.colors.UIBACK, width = 520, height=150)
+        # agent_frame.place(relx=0.5, rely=0.96, anchor="center",width=220)
+        # self.agent_label=tk.Label(agent_frame,bg=self.colors.UIBACK,fg=self.colors.SCORECOLOR,text="...psst... PRESS F and sit back...", font=self.colors.SUBTITLEFONT)
+        # self.agent_label.grid(sticky='s')
 
     def horizontal_move_exits(self,matrix):
         """
