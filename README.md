@@ -1,6 +1,8 @@
 # POPL
 2048 Game for CSF301 
 
+## To use agent, run main.py inside Test folder
+
 ### File Structure
 
     /main.py    "Main Game Code"
