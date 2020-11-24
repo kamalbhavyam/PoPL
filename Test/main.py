@@ -7,6 +7,14 @@ agenthistory=History()
 visited=None
 
 def childlist(gameObject):
+    """
+    Make list of possible children using actions that are possible from this state.
+
+    Args:
+        gameObject (State Object): Game State
+    Returns:
+        ls (List): Possible next states
+    """
     ls=[]
     gameObject.checknext()
     if not gameObject.left is None:
@@ -20,6 +28,13 @@ def childlist(gameObject):
     return ls
 
 def eventmaker(visited,gameObject):
+    """
+    DFS style search for a tilesum equating to value 8
+
+    Args:
+        visited (List): set of visited states.
+        gameObject (State Object): current game state.
+    """
     if visited is None:
         visited = []
 
@@ -30,67 +45,16 @@ def eventmaker(visited,gameObject):
         return -1
     if gameObject.tilesum==8:
         print("queue:")
-        for x in agenthistory.history:
-            print(x[0],x[0].tilesum)
+        agenthistory.printall()
         return 1
 
     for elem in childlist(gameObject):
         if elem not in visited:
-            if eventmaker(visited,elem)==1:
+            val=eventmaker(visited,elem)
+            if val==1:
                 return 1
-    # visited.append(gameObject)
-    # queue.append(gameObject)
-
-    # while queue:
-    #     s=queue.pop(0)
-    #     print(s)
-
-    #     if s.losingstate==True:
-
-
-    #     if s.tilesum==8:
-    #         print("winner element",s)
-    #         break
-            
-    #     if s.tilesum>8:
-    #         continue
-
-    #     for elem in childlist(s):
-    #         # if elem not in visited:
-    #             visited.append(elem)
-    #             queue.append(elem)
-        
-    # print("Function Called")
-    # if gameObject.tilesum!=28:
-    #     if gameObject.tilesum>24:
-    #         # gameObject.tilesum
-    #         print("OVERSHOT!")
-    #         # gameObject.gui.event_generate("i")
-    #         gameObject.gui.event_generate("z")
-    #         gameObject.gui.after(50,eventmaker,gameObject)
-    #     # time.sleep(1)
-    #     else:
-    #         available_indices=[1,2,3,4]
-    #         # gameObject.gui.event_generate("i")
-    #         ind=random.choices(available_indices)[0]
-    #         print(ind)
-    #         if ind==1:
-    #             gameObject.gui.event_generate("a")
-    #             available_indices.remove(1)
-    #         elif ind==2:
-    #             gameObject.gui.event_generate("d")
-    #             available_indices.remove(2)
-    #         elif ind==3:
-    #             gameObject.gui.event_generate("w")
-    #             available_indices.remove(3)
-    #         elif ind==4:
-    #             gameObject.gui.event_generate("s")
-    #             available_indices.remove(4)
-    #         gameObject.gui.after(50,eventmaker,gameObject)
-    # else:
-    #     gameObject.gui.event_generate("i")
-
-    # gameObject.gui.event_generate("i")
+            elif val==-1:
+                agenthistory.push(gameObject,None)
 
 def main():
     gameObject=Game()

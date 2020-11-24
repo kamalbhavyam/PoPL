@@ -408,6 +408,13 @@ class History:
     def __repr__(self):
         return str(self.history)
 
+    def printall(self):
+        """
+        Print all elements of history to console.
+        """
+        for x in self.history:
+            print(x[0],x[0].tilesum)
+
     def push(self,state,direction):
         """
         Move the index forward and add state to history.
