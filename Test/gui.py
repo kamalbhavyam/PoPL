@@ -113,11 +113,6 @@ class GUI(tk.Frame):
         self.agent_label=tk.Label(title_frame,bg=self.colors.UIBACK,fg=self.colors.SCORECOLOR,text="Or PRESS F and Sit Back...", font=self.colors.SUBTITLEFONT)
         self.agent_label.grid(row=5,sticky='w')
 
-        # agent_frame = tk.Frame(self, bg = self.colors.UIBACK, width = 520, height=150)
-        # agent_frame.place(relx=0.5, rely=0.96, anchor="center",width=220)
-        # self.agent_label=tk.Label(agent_frame,bg=self.colors.UIBACK,fg=self.colors.SCORECOLOR,text="...psst... PRESS F and sit back...", font=self.colors.SUBTITLEFONT)
-        # self.agent_label.grid(sticky='s')
-
     def horizontal_move_exits(self,matrix):
         """
         Check if tiles can be combined when moving left or right.
@@ -206,10 +201,10 @@ class GUI(tk.Frame):
                         )
 
         self.game_over(matrix)
-        if self.bomeshflag==True:
-            for elem in self.game_over_frame.winfo_children():
-                elem.pack_forget()
-            self.game_over_maker("BOMESH!")
+        # if self.bomeshflag==True:
+        #     for elem in self.game_over_frame.winfo_children():
+        #         elem.pack_forget()
+        #     self.game_over_maker("BOMESH!")
         if self.overflag==True:
             if self.winflag==True:
                 for elem in self.game_over_frame.winfo_children():

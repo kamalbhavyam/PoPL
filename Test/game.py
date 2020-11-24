@@ -136,14 +136,10 @@ class Game:
         if not (self.history.history[self.history.index-1][0].left is None):
             self.matrix=self.history.history[self.history.index-1][0].left.gamegrid
             self.history.history[self.history.index-1][0].destroychildren()
-            # self.history.history[self.history.index-1][0].right=None
-            # self.history.history[self.history.index-1][0].up=None
-            # self.history.history[self.history.index-1][0].down=None
             self.score=self.history.history[self.history.index-1][0].left.score
             self.tilesum=self.history.history[self.history.index-1][0].left.tilesum
             self.history.push(self.history.history[self.history.index-1][0].left,"left")
             self.gui.update_GUI(self.matrix,self.score)
-            # self.game_over()
             self.changeflag=False
             return
         self.stack()
@@ -153,12 +149,8 @@ class Game:
             self.add_new_tile()
             self.history.history[self.history.index-1][0].left=State(self.matrix,self.score,self.tilesum)
             self.history.history[self.history.index-1][0].destroychildren()
-            # self.history.history[self.history.index-1][0].right=None
-            # self.history.history[self.history.index-1][0].up=None
-            # self.history.history[self.history.index-1][0].down=None
             self.history.push(self.history.history[self.history.index-1][0].left,"left")
         self.gui.update_GUI(self.matrix,self.score)
-        # self.game_over()
         self.changeflag=False
 
     def right(self, event):
@@ -168,14 +160,10 @@ class Game:
         if not (self.history.history[self.history.index-1][0].right is None):
             self.matrix=self.history.history[self.history.index-1][0].right.gamegrid
             self.history.history[self.history.index-1][0].destroychildren()
-            # self.history.history[self.history.index-1][0].left=None
-            # self.history.history[self.history.index-1][0].up=None
-            # self.history.history[self.history.index-1][0].down=None
             self.score=self.history.history[self.history.index-1][0].right.score
             self.tilesum=self.history.history[self.history.index-1][0].right.tilesum
             self.history.push(self.history.history[self.history.index-1][0].right,"right")
             self.gui.update_GUI(self.matrix,self.score)
-            # self.game_over()
             self.changeflag=False
             return
         self.reverse()
@@ -187,12 +175,8 @@ class Game:
             self.add_new_tile()
             self.history.history[self.history.index-1][0].right=State(self.matrix,self.score,self.tilesum)
             self.history.history[self.history.index-1][0].destroychildren()
-            # self.history.history[self.history.index-1][0].left=None
-            # self.history.history[self.history.index-1][0].up=None
-            # self.history.history[self.history.index-1][0].down=None
             self.history.push(self.history.history[self.history.index-1][0].right,"right")
         self.gui.update_GUI(self.matrix,self.score)
-        # self.game_over()
         self.changeflag=False
 
     def up(self, event):
@@ -202,14 +186,10 @@ class Game:
         if not (self.history.history[self.history.index-1][0].up is None):
             self.matrix=self.history.history[self.history.index-1][0].up.gamegrid
             self.history.history[self.history.index-1][0].destroychildren()
-            # self.history.history[self.history.index-1][0].left=None
-            # self.history.history[self.history.index-1][0].right=None
-            # self.history.history[self.history.index-1][0].down=None
             self.score=self.history.history[self.history.index-1][0].up.score
             self.tilesum=self.history.history[self.history.index-1][0].up.tilesum
             self.history.push(self.history.history[self.history.index-1][0].up,"up")
             self.gui.update_GUI(self.matrix,self.score)
-            # self.game_over()
             self.changeflag=False
             return
         self.transpose()
@@ -221,12 +201,8 @@ class Game:
             self.add_new_tile()
             self.history.history[self.history.index-1][0].up=State(self.matrix,self.score,self.tilesum)
             self.history.history[self.history.index-1][0].destroychildren()
-            # self.history.history[self.history.index-1][0].left=None
-            # self.history.history[self.history.index-1][0].right=None
-            # self.history.history[self.history.index-1][0].down=None
             self.history.push(self.history.history[self.history.index-1][0].up,"up")
         self.gui.update_GUI(self.matrix,self.score)
-        # self.game_over()
         self.changeflag=False
 
     def down(self, event):
@@ -234,17 +210,12 @@ class Game:
         If down state of the current state does not exist, We make a down move.
         """
         if not (self.history.history[self.history.index-1][0].down is None):
-            print("repeat")
             self.matrix=self.history.history[self.history.index-1][0].down.gamegrid
             self.history.history[self.history.index-1][0].destroychildren()
-            # self.history.history[self.history.index-1][0].left=None
-            # self.history.history[self.history.index-1][0].right=None
-            # self.history.history[self.history.index-1][0].up=None
             self.score=self.history.history[self.history.index-1][0].down.score
             self.tilesum=self.history.history[self.history.index-1][0].down.tilesum
             self.history.push(self.history.history[self.history.index-1][0].down,"down")
             self.gui.update_GUI(self.matrix,self.score)
-            # self.game_over()
             self.changeflag=False
             return
         self.transpose()
@@ -258,12 +229,8 @@ class Game:
             self.add_new_tile()
             self.history.history[self.history.index-1][0].down=State(self.matrix,self.score,self.tilesum)
             self.history.history[self.history.index-1][0].destroychildren()
-            # self.history.history[self.history.index-1][0].left=None
-            # self.history.history[self.history.index-1][0].right=None
-            # self.history.history[self.history.index-1][0].up=None
             self.history.push(self.history.history[self.history.index-1][0].down,"down")
         self.gui.update_GUI(self.matrix,self.score)
-        # self.game_over()
         self.changeflag=False
 
     def horizontal_move_exits(self,matrix):
@@ -285,17 +252,6 @@ class Game:
                 if matrix[i][j] == matrix[i+1][j]:
                     return True
         return False
-
-    # def game_over(self):
-    #     """
-    #     Check if game is over by checking if the player has already won(if 2048 has been achieved) or if no moves can be made (No empty cells and no combinations possible).
-    #     """
-    #     if any(2048 in row for row in self.matrix):
-    #         self.gui.game_over_maker("You win!")
-    #         self.overflag=True
-    #     elif not any(0 in row for row in self.matrix) and not self.horizontal_move_exits() and not self.vertical_move_exits():
-    #         self.gui.game_over_maker("Game Over!")
-    #         self.overflag=False
 
     def restart(self,event):
         """
@@ -391,9 +347,15 @@ class Game:
         return emptycellcount
 
     def agenteventmaker(self):
+        """
+        Helper function to make GUI run smoothly and make a while loop in agent
+        """
         self.gui.event_generate("f")
 
     def agent(self,event):
+        """
+        Agent that uses expectimax to play and get to highest tile ( 2048 in 95% cases, 1024 in the rest till now)
+        """
         if self.gui.overflag==False:
             mv=self.ai.getmove(self.history.history[self.history.index-1][0])
             if mv is None:
@@ -411,31 +373,9 @@ class Game:
                 print("Agent makes a down move")
                 self.gui.event_generate("s")
             self.gui.after(50,self.agenteventmaker)
-    # def agent(self,event):
-    #     while self.gui.overflag==False:
-    #         i=self.nextmove(self.history.history[self.history.index-1][0])
-    #         if i==1:
-    #             self.gui.event_generate("a")
-    #             time.sleep(1)
-    #         elif i==2:
-    #             self.gui.event_generate("d")
-    #             time.sleep(1)
-    #         elif i==3:
-    #             self.gui.event_generate("w")
-    #             time.sleep(1)
-    #         elif i==4:
-    #             self.gui.event_generate("s")
-    #             time.sleep(1)
-
 
     def quit(self,event):
         """
         Exit the game.
         """
         exit()
-
-# def main():
-#     Game()
-
-# if __name__ == "__main__":
-#     main()

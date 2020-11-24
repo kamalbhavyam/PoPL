@@ -19,15 +19,14 @@ class State:
         self.tilesum=tilesum
     
     def __repr__(self):
-        # return 'Game grid '+str(self.gamegrid)+' Score:'+str(self.score)+' Left: '+str(self.left)+' Right: '+str(self.right)+' Up: '+str(self.up)+' Down: '+str(self.down)
-        return 'Game grid '+str(self.gamegrid)+' Score:'+str(self.score)+' Tilesum:'+str(self.tilesum)
-        # ' Left: '+(str(self.left.gamegrid) if (not self.left is None) else "NA,") \
-        # +' Right: '+(str(self.right.gamegrid) if (not self.right is None) else "NA") \
-        # +' Up: '+(str(self.up.gamegrid) if (not self.up is None) else "NA") \
-        # +' Down: '+(str(self.down.gamegrid) if (not self.down is None) else "NA")
+        # return 'Game grid '+str(self.gamegrid)+' Score:'+str(self.score)+' Tilesum:'+str(self.tilesum)
+        return str(self.gamegrid)
     
     def __str__(self):
         return str(self.gamegrid)
+
+    def __eq__(self,other):
+        return self.gamegrid==other.gamegrid
 
     def stack(self,matrix):
         """
@@ -273,9 +272,18 @@ class State:
         self.movedown()
 
     def getemptycells(self):
+        """
+        Get a list of empty cells.
+
+        Returns:
+            (List) List of indices of empty cells.
+        """
         return [(x,y) for x in range(4) for y in range(4) if self.gamegrid[x][y]==0]
 
     def destroychildren(self):
+        """
+        Destroy children of children to maintain memory.
+        """
         if self.left is None:
             pass
         else:
@@ -306,9 +314,22 @@ class State:
             self.down.down=None
         
     def insert_tile(self,pos,value):
+        """
+        Insert tile at a given position.
+        
+        Args:
+            pos (tuple<int,int>): (x,y) position.
+            value (int): The value to be inserted.
+        """
         self.gamegrid[pos[0]][pos[1]]=value
 
     def get_available_from_zeros(self,a):
+        """
+        See if a shift operation can be made in the gamegrid.
+
+        Args:
+            a (2D list): Gamegrid
+        """
         uc, dc, lc, rc = False, False, False, False
 
         v_saw_0 = [False, False, False, False]
@@ -341,6 +362,12 @@ class State:
         return [uc, dc, lc, rc]
 
     def getavailablemoves(self):
+        """
+        Get a list of possible moves at a given State.
+
+        Returns:
+        available_moves (list of tuple<int,int>): List of available moves for a given state.
+        """
         available_moves=[]
 
         a1 = self.get_available_from_zeros(self.gamegrid)
